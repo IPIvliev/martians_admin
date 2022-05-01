@@ -2,6 +2,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+
+// import { firestorePlugin } from 'vuefire'
+
+
 // import firebase from 'firebase/compat/app'
 // import { firebaseConfig } from './firebase-config.js'
 // import 'firebase/compat/firestore'
@@ -14,3 +18,4 @@ import '../public/css/main.css'
 // export const db = firebase.firestore()
 
 createApp(App).use(store).use(router).mount('#app')
+// createApp(App).use(store).use(firestorePlugin).use(router).mount('#app')

@@ -1,4 +1,5 @@
 <template>
+
 <div class="spacing"></div>
   <div class="btn" v-if="!this.account">
     <a style="cursor: pointer;" id="main_btn" data-w-id="90938557-2145-6d02-cf2b-1567fa011889" class="main-button control-panel w-inline-block" @click="connect">
@@ -218,10 +219,10 @@
   <div autocomplete="off" class="form center presale w-form">
     <div class="css-form-styling w-embed">
     </div>
-    <form id="email-form" name="email-form" data-name="Email Form" method="get" class="form-content">
+    <form class="form-content">
       <div class="field">
         <div class="text-input custom st">
-          <div class="html-field w-embed"><input class="custom-input" placeholder="Email" type="email" name="customEmail" v-model="whitelistAddress">
+          <div class="html-field w-embed"><input class="custom-input" v-model="address">
             <label class="floating-label" for="customEmail">Wallet adress</label>
           </div>
         </div>
@@ -236,7 +237,7 @@
     </div>
   </div>
   <div class="btn">
-    <a style="cursor: pointer;" id="main_btn" data-w-id="3304a222-01b0-0a02-5bd5-b11a0d9c942e" class="main-button s2 w-inline-block" @click="addWhitelist">
+    <a style="cursor: pointer;" id="main_btn" data-w-id="3304a222-01b0-0a02-5bd5-b11a0d9c942e" class="main-button s2 w-inline-block" @click="addAddress">
       <div class="main-button-content">
         <div class="btn_stroke_wrapper">
           <div style="opacity:1" class="btn_dot"></div>
@@ -250,71 +251,33 @@
       </div>
     </a>
   </div>
+  Total: {{ length }}
   <div class="wallets_table presale_list w-container">
     <div class="table-wrapper _100 table">
       <div class="table-label">Wallets list</div>
       <div class="table no-pad overflow">
         <div class="table-row-5-col header presale_list">
-          <div id="w-node-a8e62f14-658f-3953-4904-fe41daf5548f-b597a039" class="table-col header left-col">
-            <div class="table-1---header---text">Number</div>
-          </div>
           <div class="table-col">
             <div class="table-1---header---text">Wallet adress<span class="text-span-cite"></span></div>
-            <div class="table-header-details-text">in Millions</div>
-          </div>
-          <div class="table-col hide">
-            <div class="table-1---header---text hide">Description<span class="text-span-cite"></span></div>
-            <div class="table-header-details-text"> per Sq KM</div>
-          </div>
-          <a id="w-node-a8e62f14-658f-3953-4904-fe41daf554a7-b597a039" href="#" class="table_btn naz w-button">Button Text</a>
-        </div>
-        <div class="table-row-5-col data-row presale_list">
-          <div class="table-col data left"><img src="https://uploads-ssl.webflow.com/5e60267400ece659a4258176/5e60267400ece601c325817a_dairy%20icon%20black.svg" alt="" class="table-icon">
-            <div class="table-1---header---text data center">1</div>
           </div>
           <div class="table-col">
-            <div class="table-1---header---text data center">1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2</div>
+            <div class="table-1---header---text">Action<span class="text-span-cite"></span></div>
+          </div>
+        </div>
+        
+        <div class="table-row-5-col data-row presale_list" v-for="address in addresses">
+          <div class="table-col">
+            <div class="table-1---header---text data center">{{ address.address }}</div>
           </div>
           <div class="table-col">
             <div class="table-1---header---text data center list">1</div>
-            <a href="#" class="table_btn w-button">Remove</a>
+            <a class="table_btn w-button" @click="deleteAddress(address.id)">Remove</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="container-3 w-container" v-if="this.account">
-  <a href="#" class="button-outline text-primary w-button">OUTLINE button</a>
-  <div class="container-2 fixed">
-    <div class="section-content border">
-      <div class="component-example last">
-        <div class="form center w-form">
-          <div class="css-form-styling w-embed">
-
-          </div>
-          <form id="email-form" name="email-form" data-name="Email Form" method="get" class="form-content">
-            <div class="field last"><label for="name" class="floating-label">Label</label>
-              <div class="text-input custom"><input type="text" class="custom-input w-input" autocomplete="off" maxlength="256" name="Input-7" data-name="Input 7" placeholder="" id="Input-8"></div>
-              <div class="field-footer">
-                <div class="helper-text">Use this component to change the base styling of the input</div>
-              </div>
-            </div>
-          </form>
-          <div class="success-message w-form-done">
-            <div>Thank you! Your submission has been received!</div>
-          </div>
-          <div class="error-message w-form-fail">
-            <div class="text-block-10">Oops! Something went wrong while submitting the form.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=624b718285f681678229be45" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-<script src="js/webflow.js" type="text/javascript"></script> -->
-<!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 </template>
 
 <style>
@@ -437,9 +400,9 @@
 
 <script>
 
-import { reactive } from 'vue'
-import { db } from '../firebase-config.js'
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+// import { reactive } from 'vue'
+import whitelistCollection from '../firebase-config.js'
+import { getDocs, addDoc, doc, deleteDoc } from 'firebase/firestore/lite';
 
 export default {
   data() {
@@ -448,7 +411,9 @@ export default {
       giveAwayAmount: null,
       newSalePrice: null,
       newPreSalePrice: null,
-      whitelistAddress: [],
+      addresses: [],
+      address: null,
+      length: null
     }
   },
   methods: {
@@ -474,10 +439,6 @@ export default {
       let newPreSalePrice = this.newPreSalePrice
       await this.$store.dispatch('setPreSalePrice', { newPreSalePrice })
     },
-    async addWhitelist () {
-      let whitelistAddress = this.whitelistAddress
-      await this.$store.dispatch('addWhitelist', { whitelistAddress })
-    },
     launchFileGiveAway(){
       this.$refs.file.click();
     },
@@ -498,22 +459,35 @@ export default {
         }
       }
     },
-    async getAddressList() {
-      const addressesCol = collection(db, 'addresses');
-      const addressSnapshot = await getDocs(addressesCol);
-      const addressList = addressSnapshot.docs.map(doc => doc.data());
-      return addressList;
-    },
-    // async addWhitelist() {
-    //   const addressesCol = collection(db, 'addresses');
-    //   const addressSnapshot = await getDocs(addressesCol);
-    //   const addressList = addressSnapshot.docs.map(doc => doc.data());
-    //   addressList.add({
-    //     "whitelistAddress"
-    //     creationTime: Date.now()
-    //   })
-    // }
 
+    async addAddress(){
+      console.log("Adding address")
+      const addedDoc = await addDoc(whitelistCollection, { address: this.address })
+      console.log(addedDoc.id)
+      this.addresses.splice(0)
+      this.getWhitelist()
+    },
+    async getWhitelist() {
+      let whitelist = await getDocs(whitelistCollection);
+      whitelist.forEach(address => {
+        let addressData = address.data()
+        addressData.id = address.id
+        this.addresses.push(addressData)
+      })
+      this.length = this.addresses.length
+    },
+    async deleteAddress(addressId) {
+      let address = doc(whitelistCollection, addressId)
+      if(confirm("Do you really want to delete?")){
+        await deleteDoc(address)
+        this.addresses.splice(0)
+        this.getWhitelist()
+      }
+    }
+
+  },
+  created() {
+    this.getWhitelist()
   },
 	async mounted() {
     //await this.$store.dispatch("connect", false);
@@ -523,21 +497,7 @@ export default {
     await this.$store.dispatch("checkPreSaleStatus");
     await this.$store.dispatch("checkSalePrice");
     await this.$store.dispatch("checkPreSalePrice");
-    await this.getAddressList();
 
-    const addressesCol = collection(db, 'addresses');
-
-    console.log(addressesCol)
-
-    // addressesCol.get()
-    //   .then(snap => {
-    //     const whitelistAddress = [];
-    //     snap.forEach(doc => {
-    //       whitelistAddress.push({ [doc.id]: doc.data() });
-    //     });
-    //     this.whitelistAddress = whitelistAddress;
-        
-    //   });
   },
   computed: {
     account() {

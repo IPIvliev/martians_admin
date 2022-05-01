@@ -237,17 +237,6 @@ export default createStore({
         console.log(error);
       }
     },
-    async addWhitelist({ state, commit, dispatch }, obj) {
-      console.log('GiveAway tokens')
-      try {
-        //const connectedContract = await dispatch("getContract");
-        let address = obj.giveAwayAddress
-        ///const mintTxn = await connectedContract.giveAway(address, amount);
-        //await mintTxn.wait();
-      } catch (error) {
-        console.log(error);
-      }
-    },
     async mintToken({ state, commit, dispatch }, obj) {
       console.log('Mint new token')
       try {
