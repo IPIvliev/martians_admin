@@ -9,8 +9,14 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "ethers": "^5.6.4",
+    "firebase": "^9.7.0",
+    "firebaseui": "^6.0.1",
     "vue": "^3.0.0",
+    "vue-firestore": "^0.3.30",
+    "vue-js-xlsx": "^0.0.2",
     "vue-router": "^4.0.0-0",
+    "vuefire": "^2.2.5",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
