@@ -13,7 +13,7 @@ export default createStore({
     preSaleStatus: null,
     salePrice: null,
     preSalePrice: null,
-    contract_address: '0x3ec94144f121271aABFA18C0C00332f609f53cb4'
+    contract_address: '0xf869F888024E6095E205F343756b4fC7Ed31542C'
   },
   mutations: {
     setAccount (state, account) {
@@ -244,7 +244,7 @@ export default createStore({
         let price = await connectedContract.SalePrice();
         price = ethers.utils.formatEther(price)
         price = price * obj.amount
-        const mintTxn = await connectedContract.mintMartian(obj.amount, { gasLimit: 1000000 , value: ethers.utils.parseEther(String(price))});
+        const mintTxn = await connectedContract.mintMartian(obj.amount, { gasLimit: 300000 , value: ethers.utils.parseEther(String(price))});
         await mintTxn.wait();
       } catch (error) {
         console.log(error);

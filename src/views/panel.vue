@@ -466,6 +466,7 @@ export default {
       console.log(addedDoc.id)
       this.addresses.splice(0)
       this.getWhitelist()
+      this.address = null
     },
     async getWhitelist() {
       let whitelist = await getDocs(whitelistCollection);
